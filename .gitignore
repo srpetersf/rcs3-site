@@ -1,0 +1,22 @@
+
+# Arquivos locais do editor
+.vscode/
+
+# Backend antigo não utilizado
+api/
+
+# Configurações privadas
+rcs3_private/
+vendor/
+.env
+.env.*
+smtp.php
+
+# Dependências PHP
+composer.json
+composer.lock
+
+# Arquivos temporários
+*.log
+.DS_Store
+Thumbs.db
