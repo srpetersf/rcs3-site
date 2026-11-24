@@ -4,17 +4,33 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Página inicial: /index.html vira /
+  # ========================================
+  # FORÇAR HTTPS
+  # ========================================
+
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^ https://rcs3.com.br%{REQUEST_URI} [R=301,L]
+
+  # ========================================
+  # PÁGINA INICIAL
+  # ========================================
+
+  # /index.html -> /
   RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
   RewriteRule ^index\.html$ / [R=301,L]
 
-  # Remover .html dos endereços públicos
-  RewriteCond %{THE_REQUEST} \s/+(servicos|quem-somos|contato)\.html[\s?] [NC]
-  RewriteRule ^(servicos|quem-somos|contato)\.html$ /$1 [R=301,L]
+  # ========================================
+  # REMOVER .HTML DAS URLs
+  # ========================================
 
-  # Remover a barra final nas páginas internas
-  RewriteRule ^(servicos|quem-somos|contato)/$ /$1 [R=301,L]
+  RewriteCond %{THE_REQUEST} \s/+(servicos|quem-somos|contato|privacidade)\.html[\s?] [NC]
+  RewriteRule ^(servicos|quem-somos|contato|privacidade)\.html$ /$1 [R=301,L]
+
+  # Remover barra final das páginas internas
+  RewriteRule ^(servicos|quem-somos|contato|privacidade)/$ /$1 [R=301,L]
 
   # Carregar os arquivos HTML internamente
-  RewriteRule ^(servicos|quem-somos|contato)$ $1.html [L]
+  RewriteRule ^(servicos|quem-somos|contato|privacidade)$ $1.html [L]
+
 </IfModule>
