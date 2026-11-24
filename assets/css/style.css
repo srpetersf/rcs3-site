@@ -2447,3 +2447,56 @@ button:focus-visible {
     font-size: 1.7rem;
   }
 }
+
+
+/* LOGOS DOS FABRICANTES - RCS3 */
+
+.fabricantes-logos {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 28px;
+}
+
+.fabricantes-logos img {
+  display: block;
+  width: 100%;
+  max-width: 150px;
+  height: 60px;
+  margin: 0 auto;
+  object-fit: contain;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.fabricantes-logos img:hover {
+  transform: translateY(-3px) scale(1.04);
+  opacity: 0.85;
+}
+
+/* TABLETS */
+@media (max-width: 1024px) {
+  .fabricantes-logos {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 22px;
+  }
+}
+
+/* CELULARES */
+@media (max-width: 600px) {
+  .fabricantes-logos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+
+  .fabricantes-logos img {
+    height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fabricantes-logos img {
+    transition: none;
+  }
+}
