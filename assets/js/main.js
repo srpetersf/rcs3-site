@@ -224,3 +224,137 @@ if (quoteForm) {
     window.location.href = linkEmail;
   });
 }
+
+
+/* =========================================
+   PRIVACIDADE E COOKIES - RCS3
+   ========================================= */
+
+(() => {
+  const STORAGE_KEY = 'rcs3-cookie-preference-v1';
+
+  // Cria o banner em todas as páginas do site.
+  const banner = document.createElement('aside');
+
+  banner.className = 'cookie-banner';
+  banner.id = 'rcs3-cookie-banner';
+  banner.hidden = true;
+
+  banner.setAttribute('role', 'region');
+  banner.setAttribute(
+    'aria-label',
+    'Preferências de privacidade e cookies'
+  );
+
+  banner.innerHTML = `
+    <div class="cookie-content">
+
+      <div class="cookie-title">
+        <span class="cookie-icon" aria-hidden="true">●</span>
+        Privacidade e cookies
+      </div>
+
+      <p class="cookie-description">
+        Utilizamos recursos essenciais para o
+        funcionamento do site.
+
+        Atualmente, não utilizamos cookies opcionais
+        de análise ou publicidade.
+
+        Você pode registrar sua preferência
+        neste navegador.
+
+        Saiba mais em nossa
+        <a href="privacidade.html">
+          Política de Privacidade e Cookies
+        </a>.
+      </p>
+
+    </div>
+
+    <div class="cookie-actions"
+         role="group"
+         aria-label="Escolha de cookies">
+
+      <button
+        type="button"
+        class="cookie-btn cookie-btn-reject"
+        data-cookie-reject>
+        Rejeitar opcionais
+      </button>
+
+      <button
+        type="button"
+        class="cookie-btn cookie-btn-accept"
+        data-cookie-accept>
+        Aceitar opcionais
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(banner);
+
+  // Recupera a escolha salva no navegador.
+  function obterPreferencia() {
+    try {
+      const valor = localStorage.getItem(STORAGE_KEY);
+
+      return ['accepted', 'rejected'].includes(valor)
+        ? valor
+        : null;
+    } catch (erro) {
+      return null;
+    }
+  }
+
+  // Salva a escolha e fecha o banner.
+  function salvarPreferencia(valor) {
+    try {
+      localStorage.setItem(STORAGE_KEY, valor);
+    } catch (erro) {
+      // Se o armazenamento estiver bloqueado,
+      // fecha o banner nesta visita.
+    }
+
+    banner.hidden = true;
+  }
+
+  // Botão aceitar.
+  banner
+    .querySelector('[data-cookie-accept]')
+    .addEventListener('click', () => {
+      salvarPreferencia('accepted');
+    });
+
+  // Botão rejeitar.
+  banner
+    .querySelector('[data-cookie-reject]')
+    .addEventListener('click', () => {
+      salvarPreferencia('rejected');
+    });
+
+  // Exibe somente quando não existe escolha salva.
+  if (!obterPreferencia()) {
+    banner.hidden = false;
+  }
+
+  // Adiciona automaticamente um botão no rodapé.
+  const footerLinks = document.querySelector('.footer-links');
+
+  if (footerLinks) {
+    const botaoPreferencias = document.createElement('button');
+
+    botaoPreferencias.type = 'button';
+    botaoPreferencias.className = 'cookie-preferences';
+    botaoPreferencias.textContent = 'Preferências de cookies';
+
+    botaoPreferencias.addEventListener('click', () => {
+      banner.hidden = false;
+
+      banner.querySelector('[data-cookie-reject]').focus();
+    });
+
+    footerLinks.appendChild(botaoPreferencias);
+  }
+})();

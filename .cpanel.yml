@@ -4,6 +4,6 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home1/rcs3com/public_html/
     - /bin/mkdir -p "$DEPLOYPATH/assets"
-    - /bin/cp index.html contato.html quem-somos.html servicos.html "$DEPLOYPATH"
+    - /bin/cp index.html contato.html quem-somos.html servicos.html privacidade.html "$DEPLOYPATH"
     - /bin/cp -R assets/. "$DEPLOYPATH/assets/"
     - /bin/cp .htaccess "$DEPLOYPATH"
